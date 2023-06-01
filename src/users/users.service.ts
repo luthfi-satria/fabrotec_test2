@@ -23,7 +23,11 @@ export class UserService {
     try {
       console.log(data);
       for (const query in data.cmd_chain) {
-        const cmd = data.cmd_chain[query].cmd;
+        let cmd = data.cmd_chain[query].cmd;
+        cmd = cmd.replace(
+          'INSERT INTO Users (Uid, Username, City, Friend)',
+          'INSERT INTO "Users" ("Uid", "Username", "City", "Friend")',
+        );
         await queryRunner.query(`${cmd}`);
       }
 
