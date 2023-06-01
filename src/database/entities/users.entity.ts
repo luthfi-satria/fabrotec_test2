@@ -11,7 +11,7 @@ export class UsersDocument {
   @Column({ type: 'varchar', length: 255, nullable: false })
   City?: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   Friend?: number;
 
   constructor(init?: Partial<UsersDocument>) {
