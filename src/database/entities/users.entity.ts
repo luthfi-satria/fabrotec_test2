@@ -1,6 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity({ name: 'users' })
+@Entity({ name: 'Users' })
 export class UsersDocument {
   @PrimaryGeneratedColumn()
   Uid?: number;
@@ -11,8 +17,9 @@ export class UsersDocument {
   @Column({ type: 'varchar', length: 255, nullable: false })
   City?: string;
 
-  @Column({ nullable: true })
-  Friend?: number;
+  @ManyToOne(() => UsersDocument, (Users) => Users.Uid)
+  @JoinColumn({ name: 'Friend' })
+  public Friend?: UsersDocument;
 
   constructor(init?: Partial<UsersDocument>) {
     Object.assign(this, init);

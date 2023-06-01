@@ -1,8 +1,7 @@
 import { Injectable, Logger, HttpStatus } from '@nestjs/common';
-import { DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersDocument } from 'src/database/entities/users.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateUsersDto } from './dto/users.dto';
 import { ResponseService } from 'src/response/response.service';
 
@@ -25,7 +24,7 @@ export class UserService {
       console.log(data);
       for (const query in data.cmd_chain) {
         const cmd = data.cmd_chain[query].cmd;
-        await queryRunner.query(cmd);
+        await queryRunner.query(`${cmd}`);
       }
 
       const result = queryRunner.commitTransaction();
@@ -39,8 +38,6 @@ export class UserService {
         status: HttpStatus.BAD_REQUEST,
         dbState: err.message,
       };
-    } finally {
-      await queryRunner.release();
     }
   }
 }
